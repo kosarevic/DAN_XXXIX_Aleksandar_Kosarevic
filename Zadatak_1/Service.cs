@@ -157,7 +157,7 @@ namespace Zadatak_1
             //Boolean made to initiate commercials thread only once.
             bool start = true;
             Thread t = new Thread(Commercials);
-            Console.WriteLine("Press any key to stop playing.\n");
+            Console.WriteLine("Press ESCAPE key to stop playing.\n");
             //Loop iterates as long as elapsed time is less than duration of the song.
             while (s.Elapsed < song.Length && !Console.KeyAvailable)
             {
@@ -172,7 +172,6 @@ namespace Zadatak_1
                 }
                 Thread.Sleep(1000);
             }
-            Console.ReadKey(false);
             //Commercials thread is aborted when song finishes playing.
             t.Abort();
             s.Stop();
