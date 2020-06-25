@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zadatak_1
@@ -38,9 +40,58 @@ namespace Zadatak_1
             Program.songs.Add(s);
         }
 
-        public void MusicPlayer()
+        public static void MusicPlayer()
         {
+            string input;
+            foreach (Song s in Program.songs)
+            {
+                Console.WriteLine(s.Id + ". " + s.Author + " " + s.Title + " " + s.Length);
+            }
+            Console.WriteLine();
+            Console.WriteLine("Select song you wish to play.");
+            input = Console.ReadLine();
+            Song chosen = new Song();
+            foreach (Song song in Program.songs)
+            {
+                if(song.Id == int.Parse(input))
+                {
+                    chosen = song;
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine(DateTime.Now.ToShortTimeString() + " " + chosen.Title + "\n");
 
+            Thread t1 = new Thread(() => PlaySong(chosen));
+            t1.Start();
+            t1.Join();
+
+        }
+
+        public static void PlaySong(Song song)
+        {
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            while (s.Elapsed < song.Length)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine("Song is still playing...");
+            }
+            s.Stop();
+            Console.WriteLine();
+            Console.WriteLine("Song has finished playing.");
+            string input;
+            Console.WriteLine();
+            Console.WriteLine("Play another song or exit player? (y/n)");
+            input = Console.ReadLine();
+            if(input == "y")
+            {
+                Program.ewh.Set();
+            }
+            else
+            {
+                Program.replay = false;
+                Program.ewh.Set();
+            }
         }
 
     }

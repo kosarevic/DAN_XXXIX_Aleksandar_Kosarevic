@@ -1,4 +1,4 @@
-[Author 1]:[Title 1][00:01:00]
-[Author 2]:[Title 2][00:02:00]
-[Author 3]:[Title 3][00:03:00]
-[Author 4]:[Title 4][00:04:00]
+[Author 1]:[Title 1][00:00:03]
+[Author 2]:[Title 2][00:00:04]
+[Author 3]:[Title 3][00:00:05]
+[Author 4]:[Title 4][00:00:06]

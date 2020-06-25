@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Zadatak_1
@@ -11,6 +12,8 @@ namespace Zadatak_1
     {
         public static List<Song> songs = new List<Song>();
         public static int Id = 0;
+        public static EventWaitHandle ewh = new AutoResetEvent(false);
+        public static bool replay = true;
 
         static void Main(string[] args)
         {
@@ -41,7 +44,15 @@ namespace Zadatak_1
                         Console.WriteLine();
                         break;
                     case "3":
-                        s = new Service();
+                        while (replay)
+                        {
+                            Task player = new Task(Service.MusicPlayer);
+                            player.Start();
+                            ewh.WaitOne();
+                            Console.WriteLine();
+                            if (!replay)
+                            break;
+                        }
                         break;
                     default:
                         Console.WriteLine("Incorect input, please try again.\n");
@@ -65,7 +76,7 @@ namespace Zadatak_1
             {
                 foreach (string t in text)
                 {
-                    string[] temp = t.Split(':','[',']');
+                    string[] temp = t.Split(':', '[', ']');
                     Song s = new Song();
                     s.Id = ++Id;
                     s.Author = temp[1];
