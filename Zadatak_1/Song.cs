@@ -11,9 +11,9 @@ namespace Zadatak_1
         public int Id { get; set; }
         public string Author { get; set; }
         public string Title { get; set; }
-        public DateTime Length { get; set; }
+        public TimeSpan Length { get; set; }
 
-        public Song(int id, string author, string title, DateTime length)
+        public Song(int id, string author, string title, TimeSpan length)
         {
             Id = id;
             Author = author;
