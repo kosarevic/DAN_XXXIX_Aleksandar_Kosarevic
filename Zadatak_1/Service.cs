@@ -31,6 +31,7 @@ namespace Zadatak_1
             //Author name is assigned.
             while (true)
             {
+                Console.WriteLine("To cancel process input ~ at any time.\n");
                 Console.WriteLine("Please insert song author.");
                 input = Console.ReadLine();
                 s.Author = input;
@@ -44,6 +45,7 @@ namespace Zadatak_1
                     break;
                 }
             }
+            if (input == "~") return;
             //Song title is assigned.
             while (true)
             {
@@ -60,6 +62,7 @@ namespace Zadatak_1
                     break;
                 }
             }
+            if (input == "~") return;
             int hours = 0;
             int minutes = 0;
             int seconds = 0;
@@ -67,7 +70,9 @@ namespace Zadatak_1
             while (true)
             {
                 Console.WriteLine("Please insert duration of the song. (hh)");
-                bool success = int.TryParse(Console.ReadLine(), out hours);
+                input = Console.ReadLine();
+                if (input == "~") return;
+                bool success = int.TryParse(input, out hours);
                 if (!success || hours < 0)
                 {
                     Console.WriteLine("Invalid input, please try again.\n");
@@ -78,7 +83,9 @@ namespace Zadatak_1
             while (true)
             {
                 Console.WriteLine("Please insert duration of the song. (mm)");
-                bool success = int.TryParse(Console.ReadLine(), out minutes);
+                input = Console.ReadLine();
+                if (input == "~") return;
+                bool success = int.TryParse(input, out minutes);
                 if (!success || minutes < 0 || minutes > 59)
                 {
                     Console.WriteLine("Invalid input, please try again.\n");
@@ -89,7 +96,9 @@ namespace Zadatak_1
             while (true)
             {
                 Console.WriteLine("Please insert duration of the song. (ss)");
-                bool success = int.TryParse(Console.ReadLine(), out seconds);
+                input = Console.ReadLine();
+                if (input == "~") return;
+                bool success = int.TryParse(input, out seconds);
                 if (!success || seconds < 0 || seconds > 59)
                 {
                     Console.WriteLine("Invalid input, please try again.\n");
@@ -108,7 +117,6 @@ namespace Zadatak_1
         /// </summary>
         public static void MusicPlayer()
         {
-            string input;
             Song chosen = null;
             while (true)
             {
@@ -143,7 +151,6 @@ namespace Zadatak_1
             Thread t1 = new Thread(() => PlaySong(chosen));
             t1.Start();
             t1.Join();
-
         }
         /// <summary>
         /// Method made exclusively to be invoked by thread while music is playing.
@@ -159,19 +166,22 @@ namespace Zadatak_1
             Thread t = new Thread(Commercials);
             Console.WriteLine("Press ESCAPE key to stop playing.\n");
             //Loop iterates as long as elapsed time is less than duration of the song.
-            while (s.Elapsed < song.Length && !Console.KeyAvailable)
+            do
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Song is still playing...");
-                Console.ResetColor();
-                if (start)
+                while (s.Elapsed < song.Length && !Console.KeyAvailable)
                 {
-                    //Commercials thread is initiated only once when song starts.
-                    t.Start();
-                    start = false;
-                }
-                Thread.Sleep(1000);
-            }
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Song is still playing...");
+                    Console.ResetColor();
+                    if (start)
+                    {
+                        //Commercials thread is initiated only once when song starts.
+                        t.Start();
+                        start = false;
+                    }
+                    Thread.Sleep(1000);
+                } 
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
             //Commercials thread is aborted when song finishes playing.
             t.Abort();
             s.Stop();
