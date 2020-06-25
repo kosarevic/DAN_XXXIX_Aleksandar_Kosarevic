@@ -94,5 +94,20 @@ namespace Zadatak_1
             }
         }
 
+        public delegate void Notification();
+
+        public event Notification OnNotification;
+
+        public void PlayerStopped()
+        {
+            OnNotification += () =>
+            {
+                Console.WriteLine();
+                Console.WriteLine("Music player has stopped");
+                Console.WriteLine();
+            };
+            OnNotification.Invoke();
+        }
+
     }
 }

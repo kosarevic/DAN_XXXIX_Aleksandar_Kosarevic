@@ -53,6 +53,8 @@ namespace Zadatak_1
                             if (!replay)
                             break;
                         }
+                        s = new Service();
+                        s.PlayerStopped();
                         break;
                     default:
                         Console.WriteLine("Incorect input, please try again.\n");
