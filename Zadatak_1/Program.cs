@@ -14,6 +14,7 @@ namespace Zadatak_1
         public static int Id = 0;
         public static EventWaitHandle ewh = new AutoResetEvent(false);
         public static bool replay = true;
+        public static List<string> commercials = new List<string>();
 
         static void Main(string[] args)
         {
@@ -50,8 +51,6 @@ namespace Zadatak_1
                             player.Start();
                             ewh.WaitOne();
                             Console.WriteLine();
-                            if (!replay)
-                            break;
                         }
                         s = new Service();
                         s.PlayerStopped();
@@ -87,6 +86,12 @@ namespace Zadatak_1
                     songs.Add(s);
                 }
             }
+            sr = new StreamReader("..//../Files/Commercials.txt");
+            while ((line = sr.ReadLine()) != null)
+            {
+                commercials.Add(line);
+            }
+            sr.Close();
         }
 
         static void Write()

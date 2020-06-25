@@ -24,9 +24,22 @@ namespace Zadatak_1
             string input;
             Song s = new Song();
             s.Id = ++Program.Id;
-            Console.WriteLine("Please insert song author.");
-            input = Console.ReadLine();
-            s.Author = input;
+            while (true)
+            {
+                Console.WriteLine("Please insert song author.");
+                input = Console.ReadLine();
+                s.Author = input;
+                if(s.Author == null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Invalid input, please try again.\n");
+                    continue;
+                }
+                else
+                {
+                    break;
+                }
+            }
             Console.WriteLine("Please insert song title.");
             input = Console.ReadLine();
             s.Title = input;
@@ -71,11 +84,21 @@ namespace Zadatak_1
         {
             Stopwatch s = new Stopwatch();
             s.Start();
+            bool start = true;
+            Thread t = new Thread(Commercials);
             while (s.Elapsed < song.Length)
             {
-                Thread.Sleep(1000);
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Song is still playing...");
+                Console.ResetColor();
+                if (start)
+                {
+                    t.Start();
+                    start = false;
+                }
+                Thread.Sleep(1000);
             }
+            t.Abort();
             s.Stop();
             Console.WriteLine();
             Console.WriteLine("Song has finished playing.");
@@ -102,11 +125,19 @@ namespace Zadatak_1
         {
             OnNotification += () =>
             {
-                Console.WriteLine();
-                Console.WriteLine("Music player has stopped");
-                Console.WriteLine();
+                Console.WriteLine("Music player has stopped.\n");
             };
             OnNotification.Invoke();
+        }
+
+        public static void Commercials()
+        {
+            Random r = new Random();
+            while (true)
+            {
+                Thread.Sleep(200);
+                Console.WriteLine(Program.commercials[r.Next(0,Program.commercials.Count)]);
+            }
         }
 
     }
