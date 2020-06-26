@@ -180,7 +180,8 @@ namespace Zadatak_1
                         start = false;
                     }
                     Thread.Sleep(1000);
-                } 
+                }
+                if (s.Elapsed > song.Length) break;
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
             //Commercials thread is aborted when song finishes playing.
             t.Abort();
